@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "${rootProject.tools.versionName}"
     }
+    group = 'education.honor'
+    version = "${rootProject.tools.versionName}"
 
 }
 
@@ -18,10 +20,11 @@ dependencies {
 }
 
 // Maven Publishing
+/*
 ext {
     PUBLISH_GROUP_ID = 'com.github.mhiew'
     PUBLISH_VERSION = "${rootProject.tools.versionName}"
     PUBLISH_ARTIFACT_ID = 'android-pdf-viewer'
 }
 
-apply from: "${rootProject.projectDir}/android-pdf-viewer/publish-mavencentral.gradle"
+apply from: "${rootProject.projectDir}/android-pdf-viewer/publish-mavencentral.gradle"*/
