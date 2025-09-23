@@ -11,7 +11,7 @@ ext {
             versionName: '4.0.1'
     ]
     deps = [
-        pdfium: (findProperty('pdfiumCoordinate') ?: 'com.github.mhiew:pdfium-android:1.9.2')
+       // pdfium: (findProperty('pdfiumCoordinate') ?: 'com.github.mhiew:pdfium-android:1.9.2')
     ]
 }
 
