@@ -3,17 +3,22 @@
 jdk:
   - openjdk17
 
-# (Optional) Pre-install Android SDK platform & build tools needed for compileSdk 34.
-# If JitPack image already has them this will be quick; otherwise it ensures availability.
 before_install:
   - echo "y" | sdkmanager --licenses || true
   - sdkmanager "platforms;android-34" "build-tools;34.0.0" || true
 
-# Build only the library module (sample app not needed for publishing)
+# Publish the release variant to the local Maven repo so JitPack can pick it up
 install:
-  - ./gradlew :android-pdf-viewer:assembleRelease --no-daemon --stacktrace
+  - ./gradlew :android-pdf-viewer:publishReleasePublicationToMavenLocal --no-daemon --stacktrace
+  # Fallback: copy AAR to root if JitPack still cannot find it automatically
+  - mkdir -p jitpack-artifacts
+  - cp android-pdf-viewer/build/outputs/aar/android-pdf-viewer-release.aar jitpack-artifacts/ || true
 
-# You will depend on the artifact using:
-# implementation("com.github.<YourGitHubUser>:AndroidPdfViewer:<TAG>")
-# Where <TAG> is the Git tag (e.g. v4.0.1)
+# Explicit artifact hint for JitPack (fallback). JitPack will prefer the Maven publication but this helps discovery.
+artifacts:
+  - path: jitpack-artifacts/android-pdf-viewer-release.aar
+    type: aar
 
+# Dependency usage examples:
+# implementation("education.honor:honor-android-pdf-viewer:4.0.1")  # Using published groupId
+# or (if you rely on default JitPack coordinates) implementation("com.github.<YourGitHubUser>:AndroidPdfViewer:TAG")
