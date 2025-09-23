@@ -1,2 +1,20 @@
-include ':android-pdf-viewer'
-include ':sample'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    // Changed to prefer project repos to avoid failure with build.gradle repository blocks
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "AndroidPdfViewer"
+
+include(":android-pdf-viewer", ":sample")

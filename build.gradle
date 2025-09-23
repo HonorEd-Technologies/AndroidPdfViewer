@@ -1,26 +1,29 @@
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+plugins {
+    id 'com.android.application' version '8.5.0' apply false
+    id 'com.android.library' version '8.5.0' apply false
 }
 
 ext {
     tools = [
-            minSdk      : 19,
-            targetSdk   : 31,
-            compileSdk  : 31,
-            versionName: '4.0.0'
+            minSdk     : 19,
+            targetSdk  : 34,
+            compileSdk : 34,
+            versionName: '4.0.1'
     ]
+    deps = [
+        pdfium: (findProperty('pdfiumCoordinate') ?: 'com.github.mhiew:pdfium-android:1.9.2')
+    ]
+}
+
+subprojects { subproj ->
+    configurations.configureEach {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'org.jetbrains.kotlin' && details.requested.name.startsWith('kotlin-stdlib')) {
+                details.useVersion '1.8.22'
+                details.because 'Align Kotlin stdlib to prevent duplicate classes (jdk7/jdk8 artifacts)'
+            }
+        }
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+    }
 }

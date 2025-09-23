@@ -1,25 +1,41 @@
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion rootProject.tools.compileSdk
-
-    defaultConfig {
-        minSdkVersion rootProject.tools.minSdk
-        targetSdkVersion rootProject.tools.targetSdk
-        versionCode 1
-        versionName "${rootProject.tools.versionName}"
-    }
-    group = 'education.honor'
-    version = "${rootProject.tools.versionName}"
-
+plugins {
+    id 'com.android.library'
 }
 
+android {
+    compileSdk rootProject.tools.compileSdk
+
+    namespace 'com.github.barteksc.pdfviewer'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "${rootProject.tools.versionName}"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+group = 'education.honor'
+version = "${rootProject.tools.versionName}"
+
 dependencies {
-    implementation 'androidx.core:core:1.7.0'
+    implementation 'androidx.core:core:1.13.1'
     api 'com.github.mhiew:pdfium-android:1.9.2'
 }
 
-// Maven Publishing
 
 ext {
     PUBLISH_GROUP_ID = 'education.honor'

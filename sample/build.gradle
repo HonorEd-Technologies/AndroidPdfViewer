@@ -1,23 +1,15 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
+plugins {
+    id 'com.android.application'
 }
-
-repositories {
-    google()
-    mavenCentral()
-}
-
-apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.tools.compileSdk
+    namespace 'com.github.barteksc.sample'
+    compileSdk 34
 
     defaultConfig {
-        minSdkVersion rootProject.tools.minSdk
-        targetSdkVersion rootProject.tools.targetSdk
+        applicationId 'com.github.barteksc.sample'
+        minSdk 21
+        targetSdk 34
         versionCode 3
         versionName "${rootProject.tools.versionName}"
 
@@ -27,11 +19,16 @@ android {
             }
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation project(':android-pdf-viewer')
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'org.androidannotations:androidannotations-api:4.6.0'
-    annotationProcessor "org.androidannotations:androidannotations:4.6.0"
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'org.androidannotations:androidannotations-api:4.8.0'
+    annotationProcessor 'org.androidannotations:androidannotations:4.8.0'
 }
