@@ -33,7 +33,6 @@ version = "${rootProject.tools.versionName}"
 
 dependencies {
     implementation 'androidx.core:core:1.13.1'
-    api 'com.github.mhiew:pdfium-android:1.9.2'
 }
 
 
