@@ -2,6 +2,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 def isAndroid = plugins.hasPlugin('com.android.library')
+def isJitpack = System.getenv('JITPACK') != null
 
 group = PUBLISH_GROUP_ID
 version = PUBLISH_VERSION
@@ -65,18 +66,33 @@ afterEvaluate {
             }
         }
         repositories {
-            maven {
-                name = "sonatype"
-                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                credentials {
-                    username ossrhUsername
-                    password ossrhPassword
+            if (!isJitpack) {
+                maven {
+                    name = "sonatype"
+                    url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                    credentials {
+                        username ossrhUsername
+                        password ossrhPassword
+                    }
                 }
+            } else {
+                logger.lifecycle('[publish] Skipping Sonatype repository on JitPack build')
             }
         }
     }
 }
 
-signing {
-    sign publishing.publications
+// Replace unconditional signing with conditional logic
+def signingKeyIdVal = ext["signing.keyId"]
+boolean skipSigning = isJitpack || signingKeyIdVal == null || signingKeyIdVal.toString().trim().isEmpty()
+
+if (skipSigning) {
+    // Disable any generated Sign tasks to prevent failures on JitPack
+    tasks.matching { it.name.startsWith('sign') }.configureEach { enabled = false }
+    logger.lifecycle("[publish] Skipping PGP signing (JitPack build or missing signing key)")
+} else {
+    signing {
+        required { gradle.taskGraph.hasTask(":android-pdf-viewer:publishReleasePublicationToSonatypeRepository") }
+        sign publishing.publications
+    }
 }

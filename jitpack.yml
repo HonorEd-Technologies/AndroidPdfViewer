@@ -1,0 +1,19 @@
+# JitPack build configuration
+# Use JDK 17 required by AGP 8.x
+jdk:
+  - openjdk17
+
+# (Optional) Pre-install Android SDK platform & build tools needed for compileSdk 34.
+# If JitPack image already has them this will be quick; otherwise it ensures availability.
+before_install:
+  - echo "y" | sdkmanager --licenses || true
+  - sdkmanager "platforms;android-34" "build-tools;34.0.0" || true
+
+# Build only the library module (sample app not needed for publishing)
+install:
+  - ./gradlew :android-pdf-viewer:assembleRelease --no-daemon --stacktrace
+
+# You will depend on the artifact using:
+# implementation("com.github.<YourGitHubUser>:AndroidPdfViewer:<TAG>")
+# Where <TAG> is the Git tag (e.g. v4.0.1)
+
