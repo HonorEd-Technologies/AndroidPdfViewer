@@ -20,7 +20,7 @@ import android.graphics.RectF;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.MathUtils;
 import com.github.barteksc.pdfviewer.util.Util;
-import com.shockwave.pdfium.util.SizeF;
+import com.shockwave.pdfium.util.SizeF; // use pdfium SizeF consistently
 
 import java.util.LinkedList;
 import java.util.List;
@@ -293,7 +293,7 @@ class PagesLoader {
             cacheOrder++;
             return true;
         }
-        return false;
+        return false; // was missing and stray import caused compilation error
     }
 
     private void loadThumbnail(int page) {

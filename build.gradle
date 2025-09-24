@@ -8,10 +8,10 @@ ext {
             minSdk     : 19,
             targetSdk  : 34,
             compileSdk : 34,
-            versionName: '4.0.1'
+            versionName: '4.0.2'
     ]
     deps = [
-       // pdfium: (findProperty('pdfiumCoordinate') ?: 'com.github.mhiew:pdfium-android:1.9.2')
+        pdfium: ('com.github.HonorEd-Technologies:PdfiumAndroid:1.9.4-16kb')
     ]
 }
 

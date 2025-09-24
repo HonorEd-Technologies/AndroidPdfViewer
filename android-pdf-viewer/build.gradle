@@ -33,6 +33,7 @@ version = "${rootProject.tools.versionName}"
 
 dependencies {
     implementation 'androidx.core:core:1.13.1'
+    api rootProject.deps.pdfium
 }
 
 
